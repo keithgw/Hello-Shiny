@@ -38,7 +38,8 @@ shinyUI(
                          h4('Prediction interval lower bound'),
                          verbatimTextOutput("lower"),
                          h4('Prediction interval upper bound'),
-                         verbatimTextOutput("upper")
+                         verbatimTextOutput("upper"),
+                         plotOutput("mpg", width = "25%")
                          ),
                 tabPanel("Documentation",
                          p(                           

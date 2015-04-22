@@ -1,4 +1,5 @@
 library(shiny)
+library(ggplot2)
 data(mtcars)
 
 # change transmission variable to factor and relabel
@@ -34,5 +35,20 @@ shinyServer(
         output$upper <- renderText({
             mpg_hat()[3]
         })
+        
+        # create plot of prediction and interval
+        output$mpg <- renderPlot({
+            ggplot(as.data.frame(mpg_hat())) +
+                geom_line(aes(c(1, 1), c(lwr, upr)), col="#F1BB7B") + 
+                geom_point(aes(1, fit), col="#5B1A18", size = 6) +
+                geom_point(aes(c(1, 1), c(lwr, upr)), 
+                           col="#D67236", size = 6, shape = 18) +
+                labs(x = "", y = "Miles per Gallon") +
+                theme(axis.title.y = element_text(size = 20),
+                      axis.text.x = element_blank()) + 
+                coord_cartesian(xlim = c(.9, 1.1),
+                                ylim = c(-2, 36))
+        })
     }
 )
+
